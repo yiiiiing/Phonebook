@@ -1,16 +1,6 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
-app.use(express.json())
-
-
-const generateId = () => {
-    const maxId = phonebook.length > 0
-      ? Math.max(...phonebook.map(n => Number(n.id))) //... means transform array to individual numbers
-      : 0
-    return String(maxId + 1)
-}
-  
-
 
 let phonebook = [
     { 
@@ -34,6 +24,18 @@ let phonebook = [
       "number": "39-23-6423122"
     }
 ]
+
+const generateId = () => {
+    const maxId = phonebook.length > 0
+      ? Math.max(...phonebook.map(n => Number(n.id))) //... means transform array to individual numbers
+      : 0
+    return String(maxId + 1)
+}
+
+morgan.token('content', (request, response)=>{ return JSON.stringify(request.body)})
+// Middleware before route
+app.use(express.json())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 
 // Get API
 
@@ -112,7 +114,8 @@ app.delete('/api/persons/:id', (request, response) => {
   
     response.json(newPerson)
   })
-  
+
+// Middleware after route
 
 const PORT = 3001
 app.listen(PORT, () => {
