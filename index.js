@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 let phonebook = [
@@ -34,6 +35,8 @@ const generateId = () => {
 
 morgan.token('content', (request, response)=>{ return JSON.stringify(request.body)})
 // Middleware before route
+app.use(cors())
+app.use(express.static('dist'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :content'))
 
@@ -117,7 +120,8 @@ app.delete('/api/persons/:id', (request, response) => {
 
 // Middleware after route
 
-const PORT = 3001
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
