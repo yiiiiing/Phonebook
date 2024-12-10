@@ -22,23 +22,23 @@ const App = () => {
 
     const existPerson = persons.find(p => p.name === newName)
     if (existPerson) {
-      // const confirmRes = confirm(`${existPerson.name} is already added to the phonebook, replace the old number with a new one?`)
-      // if (confirmRes){
-      //    // update number
-      //   const updatePerson = {...existPerson, number:newNumber}
-      //   const id = existPerson.id
-      //   phonebookservice
-      //   .update(updatePerson.id, updatePerson)
-      //   .then((newPerson) => {
-      //     console.log(`Update person's number with ${id}`)
-      //     setPersons(persons.map(p => p.id === id ? newPerson : p))
-      //     setMessage({content:`Updated number of ${newPerson.name}`, type:'info'})
-      //   })
-      //   .catch((error) => {
-      //     setMessage({content:`${updatePerson.name} was already removed from server`, type:'error'})
-      //     setPersons(persons.filter(p => p.id !== id))}
-      //   )
-      // }     
+      const confirmRes = confirm(`${existPerson.name} is already added to the phonebook, replace the old number with a new one?`)
+      if (confirmRes){
+         // update number
+        const updatePerson = {...existPerson, number:newNumber}
+        const id = existPerson.id
+        phonebookservice
+        .update(updatePerson.id, updatePerson)
+        .then((newPerson) => {
+          console.log(`Update person's number with ${id}`)
+          setPersons(persons.map(p => p.id === id ? newPerson : p))
+          setMessage({content:`Updated number of ${newPerson.name}`, type:'info'})
+        })
+        .catch((error) => {
+          setMessage({content:`${updatePerson.name} was already removed from server`, type:'error'})
+          setPersons(persons.filter(p => p.id !== id))}
+        )
+      }     
     }else{
       phonebookservice
       .create({name: newName, number:newNumber})
