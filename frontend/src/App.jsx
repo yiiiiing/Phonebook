@@ -35,9 +35,11 @@ const App = () => {
           setMessage({content:`Updated number of ${newPerson.name}`, type:'info'})
         })
         .catch((error) => {
-          setMessage({content:`${updatePerson.name} was already removed from server`, type:'error'})
-          setPersons(persons.filter(p => p.id !== id))}
-        )
+          console.log(error.response.data.error)
+          setMessage({content: error.response.data.error, type:'error'})
+          // setMessage({content:`${updatePerson.name} was already removed from server`, type:'error'})
+          // setPersons(persons.filter(p => p.id !== id))
+        })
       }     
     }else{
       phonebookservice
@@ -45,6 +47,11 @@ const App = () => {
       .then( createdPerson => {
       setPersons(persons.concat(createdPerson))
       setMessage({content:`Added ${createdPerson.name}`, type:'info'})
+      })
+      .catch(error => {
+        // this is the way to access the error message
+        console.log(error.response.data.error)
+        setMessage({content: error.response.data.error, type:'error'})
       })
     }
     setTimeout(() => { setMessage({content:null, type:null})}, 5000)

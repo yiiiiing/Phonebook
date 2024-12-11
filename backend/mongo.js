@@ -24,25 +24,25 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Persons', personSchema)
 
 
-// print all persons 
+// print all persons
 if (process.argv.length < 4){
-    Person.find({}).then(result => {
-        result.forEach(note => {
-          console.log(note)
-        })
-        mongoose.connection.close()
+  Person.find({}).then(result => {
+    result.forEach(note => {
+      console.log(note)
     })
+    mongoose.connection.close()
+  })
 }
 
 if (process.argv.length > 3){
-    const person = new Person({
-        name: process.argv[3],
-        number: process.argv[4],
-    })
-      
-      person.save().then(result => {
-        console.log('person saved!')
-        mongoose.connection.close()
-    }) 
+  const person = new Person({
+    name: process.argv[3],
+    number: process.argv[4],
+  })
+
+  person.save().then(result => {
+    console.log('person saved!')
+    mongoose.connection.close()
+  })
 }
 
